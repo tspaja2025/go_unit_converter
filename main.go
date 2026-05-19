@@ -1,106 +1,120 @@
 package main
 
 import (
+	"html/template"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 func main() {
 	startServer()
 }
 
-// Unit
-type Length struct {
-	Meter      float64
-	Kilometer  float64
-	Centimeter float64
-	Millimeter float64
-	Micrometer float64
-	Nanometer  float64
-	Mile       float64
-	Yard       float64
-	Foot       float64
-	Inch       float64
-	LightYear  float64
-}
-
-type Temperature struct {
-	Celcius    float64
-	Kelvin     float64
-	Fahrenheit float64
-}
-
-type Area struct {
-	SquareMeter      float64
-	SquareKilometer  float64
-	SquareCentimeter float64
-	SquareMillimeter float64
-	SquareMicrometer float64
-	Hectare          float64
-	SquareMile       float64
-	SquareYard       float64
-	SquareFoot       float64
-	SquareInch       float64
-	Acre             float64
-}
-
-type Volume struct {
-	CubicMeter         float64
-	CubicKilometer     float64
-	CubicCentimeter    float64
-	CubicMillimeter    float64
-	Liter              float64
-	Milliliter         float64
-	USGallon           float64
-	USQuart            float64
-	USPint             float64
-	USCup              float64
-	USFluidOunce       float64
-	USTableSpoon       float64
-	USTeaSpoon         float64
-	ImperialGallon     float64
-	ImperialQuart      float64
-	ImperialPint       float64
-	ImperialFluidOunce float64
-	ImperialTableSpoon float64
-	ImperialTeaSpoon   float64
-	CubicMile          float64
-	CubicYard          float64
-	CubicFoot          float64
-	CubicInch          float64
-}
-
-type Weight struct {
-	Kilogram       float64
-	Gram           float64
-	Milligram      float64
-	MetricTon      float64
-	LongTon        float64
-	ShortTon       float64
-	Pound          float64
-	Ounce          float64
-	Carrat         float64
-	AtomicMassUnit float64
-}
-
-type Time struct {
-	Second      float64
-	Millisecond float64
-	Microsecond float64
-	Nanosecond  float64
-	Picosecond  float64
-	Minute      float64
-	Hour        float64
-	Day         float64
-	Week        float64
-	Month       float64
-	Year        float64
-}
-
-// Server
+// Handlers
 func startServer() {
-	fs := http.FileServer(http.Dir("./static"))
-	http.Handle("/", fs)
-	log.Print("Listening on :3000...")
+	http.HandleFunc("/", handleIndex)
+	http.HandleFunc("/convert", handleConvert)
+	log.Print("Listening on http://localhost:3000/...")
 	log.Fatal(http.ListenAndServe(":3000", nil))
+}
+
+func handleIndex(w http.ResponseWriter, r *http.Request) {
+	tmpl := template.Must(template.ParseFiles("index.html"))
+	tmpl.Execute(w, nil)
+}
+
+func handleConvert(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
+
+	category := r.FormValue("category")
+	fromUnit := r.FormValue("fromUnit")
+	toUnit := r.FormValue("toUnit")
+	valueStr := r.FormValue("value")
+
+	value, err := strconv.ParseFloat(valueStr, 64)
+	if err != nil {
+		http.Error(w, "Invalid number", http.StatusBadRequest)
+		return
+	}
+
+	var result float64
+	switch category {
+	case "length":
+		result = convertLength(value, fromUnit, toUnit)
+	case "temperature":
+		result = convertTemperature(value, fromUnit, toUnit)
+	case "area":
+		result = convertArea(value, fromUnit, toUnit)
+	case "volume":
+		result = convertVolume(value, fromUnit, toUnit)
+	case "weight":
+		result = convertWeight(value, fromUnit, toUnit)
+	case "time":
+		result = convertTime(value, fromUnit, toUnit)
+	}
+
+	w.Header().Set("Content-Type", "text/html")
+	tmpl := template.Must(template.ParseFiles("index.html"))
+	tmpl.Execute(w, map[string]interface{}{
+		"Result":     result,
+		"FromValue":  value,
+		"FromUnit":   fromUnit,
+		"ToUnit":     toUnit,
+		"Category":   category,
+		"ShowResult": true,
+	})
+}
+
+// Length conversions
+func convertLength(value float64, from, to string) float64 {
+	// TODO:
+}
+
+func toMeters(unit string) float64 {
+	// TODO:
+}
+
+// Temperature conversions
+func convertTemperature(value float64, from, to string) float64 {
+	// TODO:
+}
+
+// Area conversions
+func convertArea(value float64, from, to string) float64 {
+	// TODO:
+}
+
+func toSquareMeters(unit string) float64 {
+	// TODO:
+}
+
+// Volume conversions
+func convertVolume(value float64, from, to string) float64 {
+	// TODO:
+}
+
+func toLiters(unit string) float64 {
+	// TODO:
+}
+
+// Weight conversions
+func convertWeight(value float64, from, to string) float64 {
+	// TODO:
+}
+
+func toKilograms(unit string) float64 {
+	// TODO:
+}
+
+// Time conversions
+func convertTime(value float64, from, to string) float64 {
+	// TODO:
+}
+
+func toSeconds(unit string) float64 {
+	// TODO:
 }
