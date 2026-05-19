@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Go Unit Converter</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <div class="flex flex-col align-center">
+        <h1>Go Unit converter</h1>
+        <form class="flex flex-col gap-y-16 w-420" action="/submit" method="POST">
+            <h4 class="mb-4">Length</h4>
+            <div class="flex gap-x-16">
+                <div class="flex flex-col w-full">
+                    <label class="font-bold" for="from">From:</label>
+                    <input class="p-8 border-radius-4 border" type="text" id="from">
+                </div>
+                <div class="flex flex-col w-full">
+                    <label class="font-bold" for="to">To:</label>
+                    <input class="p-8 border-radius-4 border" type="text" id="to">
+                </div>
+            </div>
+            <div class="flex gap-x-16">
+                <select class="w-full">
+                    <option>Meter</option>
+                    <option>Kilometer</option>
+                    <option>Centimeter</option>
+                    <option>Millimeter</option>
+                    <option>Micrometer</option>
+                    <option>Nanometer</option>
+                    <option>Mile</option>
+                    <option>Yard</option>
+                    <option>Foot</option>
+                    <option>Inch</option>
+                    <option>Light Year</option>
+                </select>
+                <select class="w-full">
+                    <option>Meter</option>
+                    <option>Kilometer</option>
+                    <option>Centimeter</option>
+                    <option>Millimeter</option>
+                    <option>Micrometer</option>
+                    <option>Nanometer</option>
+                    <option>Mile</option>
+                    <option>Yard</option>
+                    <option>Foot</option>
+                    <option>Inch</option>
+                    <option>Light Year</option>
+                </select>
+            </div>
+        </form>
+        <form class="flex flex-col gap-y-16 w-420">
+            <h4 class="mb-4">Temperature</h4>
+            <div class="flex gap-x-16">
+                <div class="flex flex-col w-full">
+                    <label class="font-bold" for="from">From:</label>
+                    <input class="p-8 border-radius-4 border" type="text" id="from">
+                </div>
+                <div class="flex flex-col w-full">
+                    <label class="font-bold" for="to">To:</label>
+                    <input class="p-8 border-radius-4 border" type="text" id="to">
+                </div>
+            </div>
+            <div class="flex gap-x-16">
+                <select class="w-full">
+                    <option>Celcius</option>
+                    <option>Kelvin</option>
+                    <option>Fahrenheit</option>
+                </select>
+                <select class="w-full">
+                    <option>Celcius</option>
+                    <option>Kelvin</option>
+                    <option>Fahrenheit</option>
+                </select>
+            </div>
+        </form>
+        <form class="flex flex-col gap-y-16 w-420">
+            <h4 class="mb-4">Area</h4>
+            <div class="flex gap-x-16">
+                <div class="flex flex-col w-full">
+                    <label class="font-bold" for="from">From:</label>
+                    <input class="p-8 border-radius-4 border" type="text" id="from">
+                </div>
+                <div class="flex flex-col w-full">
+                    <label class="font-bold" for="to">To:</label>
+                    <input class="p-8 border-radius-4 border" type="text" id="to">
+                </div>
+            </div>
+            <div class="flex gap-x-16">
+                <select class="w-full">
+                    <option>Square Meter</option>
+                    <option>Square Kilometer</option>
+                    <option>Square Centimeter</option>
+                    <option>Square Millimeter</option>
+                    <option>Square Micrometer</option>
+                    <option>Hectare</option>
+                    <option>Square Mile</option>
+                    <option>Square Yard</option>
+                    <option>Square Foot</option>
+                    <option>Square Inch</option>
+                    <option>Acre</option>
+                </select>
+                <select class="w-full">
+                    <option>Square Meter</option>
+                    <option>Square Kilometer</option>
+                    <option>Square Centimeter</option>
+                    <option>Square Millimeter</option>
+                    <option>Square Micrometer</option>
+                    <option>Hectare</option>
+                    <option>Square Mile</option>
+                    <option>Square Yard</option>
+                    <option>Square Foot</option>
+                    <option>Square Inch</option>
+                    <option>Acre</option>
+                </select>
+            </div>
+        </form>
+        <form class="flex flex-col gap-y-16 w-420">
+            <h4 class="mb-4">Volume</h4>
+            <div class="flex gap-x-16">
+                <div class="flex flex-col w-full">
+                    <label class="font-bold" for="from">From:</label>
+                    <input class="p-8 border-radius-4 border" type="text" id="from">
+                </div>
+                <div class="flex flex-col w-full">
+                    <label class="font-bold" for="to">To:</label>
+                    <input class="p-8 border-radius-4 border" type="text" id="to">
+                </div>
+            </div>
+            <div class="flex gap-x-16">
+                <select class="w-full">
+                    <option>Cubic Meter</option>
+                    <option>Cubic Kilometer</option>
+                    <option>Cubic Centimeter</option>
+                    <option>Cubic Millimeter</option>
+                    <option>Liter</option>
+                    <option>Milliliter</option>
+                    <option>US Gallon</option>
+                    <option>US Quart</option>
+                    <option>US Pint</option>
+                    <option>US Cup</option>
+                    <option>US Fluid Ounce</option>
+                    <option>US Table Spoon</option>
+                    <option>US Tea Spoon</option>
+                    <option>Imperial Gallon</option>
+                    <option>Imperial Quart</option>
+                    <option>Imperial Pint</option>
+                    <option>Imperial Fluid Ounce</option>
+                    <option>Imperial Table Spoon</option>
+                    <option>Imperial Tea Spoon</option>
+                    <option>Cubic Mile</option>
+                    <option>Cubic Yard</option>
+                    <option>Cubic Foot</option>
+                    <option>Cubic Inch</option>
+                </select>
+                <select class="w-full">
+                    <option>Cubic Meter</option>
+                    <option>Cubic Kilometer</option>
+                    <option>Cubic Centimeter</option>
+                    <option>Cubic Millimeter</option>
+                    <option>Liter</option>
+                    <option>Milliliter</option>
+                    <option>US Gallon</option>
+                    <option>US Quart</option>
+                    <option>US Pint</option>
+                    <option>US Cup</option>
+                    <option>US Fluid Ounce</option>
+                    <option>US Table Spoon</option>
+                    <option>US Tea Spoon</option>
+                    <option>Imperial Gallon</option>
+                    <option>Imperial Quart</option>
+                    <option>Imperial Pint</option>
+                    <option>Imperial Fluid Ounce</option>
+                    <option>Imperial Table Spoon</option>
+                    <option>Imperial Tea Spoon</option>
+                    <option>Cubic Mile</option>
+                    <option>Cubic Yard</option>
+                    <option>Cubic Foot</option>
+                    <option>Cubic Inch</option>
+                </select>
+            </div>
+        </form>
+        <form class="flex flex-col gap-y-16 w-420">
+            <h4 class="mb-4">Weight</h4>
+            <div class="flex gap-x-16">
+                <div class="flex flex-col w-full">
+                    <label class="font-bold" for="from">From:</label>
+                    <input class="p-8 border-radius-4 border" type="text" id="from">
+                </div>
+                <div class="flex flex-col w-full">
+                    <label class="font-bold" for="to">To:</label>
+                    <input class="p-8 border-radius-4 border" type="text" id="to">
+                </div>
+            </div>
+            <div class="flex gap-x-16">
+                <select class="w-full">
+                    <option>Kilogram</option>
+                    <option>Gram</option>
+                    <option>Milligram</option>
+                    <option>Metric Ton</option>
+                    <option>Long Ton</option>
+                    <option>Short Ton</option>
+                    <option>Pound</option>
+                    <option>Ounce</option>
+                    <option>Carrat</option>
+                    <option>Atomic Mass Unit</option>
+                </select>
+                <select class="w-full">
+                    <option>Kilogram</option>
+                    <option>Gram</option>
+                    <option>Milligram</option>
+                    <option>Metric Ton</option>
+                    <option>Long Ton</option>
+                    <option>Short Ton</option>
+                    <option>Pound</option>
+                    <option>Ounce</option>
+                    <option>Carrat</option>
+                    <option>Atomic Mass Unit</option>
+                </select>
+            </div>
+        </form>
+        <form class="flex flex-col gap-y-16 w-420">
+            <h4 class="mb-4">Time</h4>
+            <div class="flex gap-x-16">
+                <div class="flex flex-col w-full">
+                    <label class="font-bold" for="from">From:</label>
+                    <input class="p-8 border-radius-4 border" type="text" id="from">
+                </div>
+                <div class="flex flex-col w-full">
+                    <label class="font-bold" for="to">To:</label>
+                    <input class="p-8 border-radius-4 border" type="text" id="to">
+                </div>
+            </div>
+            <div class="flex gap-x-16">
+                <select class="w-full">
+                    <option>Second</option>
+                    <option>Millisecond</option>
+                    <option>Microsecond</option>
+                    <option>Nanosecond</option>
+                    <option>Picosecond</option>
+                    <option>Minute</option>
+                    <option>Hour</option>
+                    <option>Day</option>
+                    <option>Week</option>
+                    <option>Month</option>
+                    <option>Year</option>
+                </select>
+                <select class="w-full">
+                    <option>Second</option>
+                    <option>Millisecond</option>
+                    <option>Microsecond</option>
+                    <option>Nanosecond</option>
+                    <option>Picosecond</option>
+                    <option>Minute</option>
+                    <option>Hour</option>
+                    <option>Day</option>
+                    <option>Week</option>
+                    <option>Month</option>
+                    <option>Year</option>
+                </select>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
