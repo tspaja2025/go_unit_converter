@@ -9,10 +9,7 @@ Check out the project details [roadmap.sh](https://roadmap.sh/projects/unit-conv
 
 ## TODO
 
-1. Input value to convert
-2. Select the units to convert from and to
-3. View converted value
-4. Convert units of measurements (e.g., length, Temperature, Area, Volume, Weight, Time)
+1. Finish template parsing -> should once parse once not every request
 
 
 ## Features

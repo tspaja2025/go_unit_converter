@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"sync"
 )
 
 type PageData struct {
@@ -15,6 +16,94 @@ type PageData struct {
 	Category   string
 	ShowResult bool
 }
+
+var lengthUnits = map[string]float64{
+	"Meter":      1.0,
+	"Kilometer":  1000.0,
+	"Centimeter": 0.01,
+	"Millimeter": 0.001,
+	"Micrometer": 0.000001,
+	"Nanometer":  0.000000001,
+	"Mile":       1609.344,
+	"Yard":       0.9144,
+	"Foot":       0.3048,
+	"Inch":       0.0254,
+	"Light Year": 9.461e15,
+}
+
+var areaUnits = map[string]float64{
+	"Square Meter":      1.0,
+	"Square Kilometer":  1000000.0,
+	"Square Centimeter": 0.0001,
+	"Square Millimeter": 0.000001,
+	"Square Micrometer": 0.000000000001,
+	"Hectare":           10000.0,
+	"Square Mile":       2589988.11,
+	"Square Yard":       0.836127,
+	"Square Foot":       0.092903,
+	"Square Inch":       0.00064516,
+	"Acre":              4046.86,
+}
+
+var volumeUnits = map[string]float64{
+	"Cubic Meter":          1000.0,
+	"Cubic Kilometer":      1e12,
+	"Cubic Centimeter":     0.001,
+	"Cubic Millimeter":     0.000001,
+	"Liter":                1.0,
+	"Milliliter":           0.001,
+	"US Gallon":            3.78541,
+	"US Quart":             0.946353,
+	"US Pint":              0.473176,
+	"US Cup":               0.24,
+	"US Fluid Ounce":       0.0295735,
+	"US Table Spoon":       0.0147868,
+	"US Teaspoon":          0.00492892,
+	"Imperial Gallon":      4.54609,
+	"Imperial Quart":       1.13652,
+	"Imperial Pint":        0.568261,
+	"Imperial Fluid Ounce": 0.0284131,
+	"Imperial Table Spoon": 0.0177582,
+	"Imperial Teaspoon":    0.00591939,
+	"Cubic Mile":           4.16818e12,
+	"Cubic Yard":           764.555,
+	"Cubic Foot":           28.3168,
+	"Cubic Inch":           0.0163871,
+}
+
+var weightUnits = map[string]float64{
+	"Kilogram":         1.0,
+	"Gram":             0.001,
+	"Milligram":        0.000001,
+	"Metric Ton":       1000.0,
+	"Long Ton":         1016.05,
+	"Short Ton":        907.185,
+	"Pound":            0.453592,
+	"Ounce":            0.0283495,
+	"carat":            0.0002,
+	"Atomic Mass Unit": 1.66054e-27,
+}
+
+var timeUnits = map[string]float64{
+	"Second":      1.0,
+	"Millisecond": 0.001,
+	"Microsecond": 0.000001,
+	"Nanosecond":  1e-9,
+	"Picosecond":  1e-12,
+	"Minute":      60.0,
+	"Hour":        3600.0,
+	"Day":         86400.0,
+	"Week":        604800.0,
+	"Month":       2628000.0,
+	"Year":        31536000.0,
+}
+
+var tmpl *template.Template
+
+var (
+	tmplOnce sync.Once
+	tmplLazy *template.Template
+)
 
 func main() {
 	startServer()
@@ -33,6 +122,16 @@ func startServer() {
 func handleIndex(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles("./static/index.html"))
 	tmpl.Execute(w, nil)
+}
+
+// Parse templates once when package initializes
+func init() {
+	var err error
+	tmpl, err = template.ParseFiles("./static/index.html")
+	if err != nil {
+		log.Fatal("Failed to parse template:", err)
+	}
+	log.Println("Templates parsed successfully")
 }
 
 func handleConvert(w http.ResponseWriter, r *http.Request) {
@@ -80,39 +179,23 @@ func handleConvert(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-// Length conversions
-func convertLength(value float64, from, to string) float64 {
-	length := value * toMeters(from)
-	return length / toMeters(to)
+// Conversion helper
+func convert(value float64, fromUnit, toUnit string, conversionMap map[string]float64) float64 {
+	fromFactor, fromExists := conversionMap[fromUnit]
+	toFactor, toExists := conversionMap[toUnit]
+
+	if !fromExists || !toExists {
+		return value // Return original if units not found
+	}
+
+	// Convert to base unit first, then to target unit
+	baseValue := value * fromFactor
+	return baseValue / toFactor
 }
 
-func toMeters(unit string) float64 {
-	switch unit {
-	case "Meter":
-		return 1.0
-	case "Kilometer":
-		return 1000.0
-	case "Centimeter":
-		return 0.01
-	case "Millimeter":
-		return 0.001
-	case "Micrometer":
-		return 0.000001
-	case "Nanometer":
-		return 0.000000001
-	case "Mile":
-		return 1609.344
-	case "Yard":
-		return 0.9144
-	case "Foot":
-		return 0.3048
-	case "Inch":
-		return 0.0254
-	case "Light Year":
-		return 9.461e15
-	default:
-		return 1.0
-	}
+// Length conversions
+func convertLength(value float64, from, to string) float64 {
+	return convert(value, from, to, lengthUnits)
 }
 
 // Temperature conversions
@@ -143,162 +226,20 @@ func convertTemperature(value float64, from, to string) float64 {
 
 // Area conversions
 func convertArea(value float64, from, to string) float64 {
-	area := value * toSquareMeters(from)
-	return area / toSquareMeters(to)
-}
-
-func toSquareMeters(unit string) float64 {
-	switch unit {
-	case "Square Meter":
-		return 1.0
-	case "Square Kilometer":
-		return 1000000.0
-	case "Square Centimeter":
-		return 0.0001
-	case "Square Millimeter":
-		return 0.000001
-	case "Square Micrometer":
-		return 0.000000000001
-	case "Hectare":
-		return 10000.0
-	case "Square Mile":
-		return 2589988.11
-	case "Square Yard":
-		return 0.836127
-	case "Square Foot":
-		return 0.092903
-	case "Square Inch":
-		return 0.00064516
-	case "Acre":
-		return 4046.86
-	default:
-		return 1.0
-	}
+	return convert(value, from, to, areaUnits)
 }
 
 // Volume conversions
 func convertVolume(value float64, from, to string) float64 {
-	volume := value * toLiters(from)
-	return volume / toLiters(to)
-}
-
-func toLiters(unit string) float64 {
-	switch unit {
-	case "Cubic Meter":
-		return 1000.0
-	case "Cubic Kilometer":
-		return 1e12
-	case "Cubic Centimeter":
-		return 0.001
-	case "Cubic Millimeter":
-		return 0.000001
-	case "Liter":
-		return 1.0
-	case "Milliliter":
-		return 0.001
-	case "US Gallon":
-		return 3.78541
-	case "US Quart":
-		return 0.946353
-	case "US Pint":
-		return 0.473176
-	case "US Cup":
-		return 0.24
-	case "US Fluid Ounce":
-		return 0.0295735
-	case "US Table Spoon":
-		return 0.0147868
-	case "US Tea Spoon":
-		return 0.00492892
-	case "Imperial Gallon":
-		return 4.54609
-	case "Imperial Quart":
-		return 1.13652
-	case "Imperial Pint":
-		return 0.568261
-	case "Imperial Fluid Ounce":
-		return 0.0284131
-	case "Imperial Table Spoon":
-		return 0.0177582
-	case "Imperial Tea Spoon":
-		return 0.00591939
-	case "Cubic Mile":
-		return 4.16818e12
-	case "Cubic Yard":
-		return 764.555
-	case "Cubic Foot":
-		return 28.3168
-	case "Cubic Inch":
-		return 0.0163871
-	default:
-		return 1.0
-	}
+	return convert(value, from, to, volumeUnits)
 }
 
 // Weight conversions
 func convertWeight(value float64, from, to string) float64 {
-	weight := value * toKilograms(from)
-	return weight / toKilograms(to)
-}
-
-func toKilograms(unit string) float64 {
-	switch unit {
-	case "Kilogram":
-		return 1.0
-	case "Gram":
-		return 0.001
-	case "Milligram":
-		return 0.000001
-	case "Metric Ton":
-		return 1000.0
-	case "Long Ton":
-		return 1016.05
-	case "Short Ton":
-		return 907.185
-	case "Pound":
-		return 0.453592
-	case "Ounce":
-		return 0.0283495
-	case "Carrat":
-		return 0.0002
-	case "Atomic Mass Unit":
-		return 1.66054e-27
-	default:
-		return 1.0
-	}
+	return convert(value, from, to, weightUnits)
 }
 
 // Time conversions
 func convertTime(value float64, from, to string) float64 {
-	seconds := value * toSeconds(from)
-	return seconds / toSeconds(to)
-}
-
-func toSeconds(unit string) float64 {
-	switch unit {
-	case "Second":
-		return 1.0
-	case "Millisecond":
-		return 0.001
-	case "Microsecond":
-		return 0.000001
-	case "Nanosecond":
-		return 1e-9
-	case "Picosecond":
-		return 1e-12
-	case "Minute":
-		return 60.0
-	case "Hour":
-		return 3600.0
-	case "Day":
-		return 86400.0
-	case "Week":
-		return 604800.0
-	case "Month":
-		return 2628000.0
-	case "Year":
-		return 31536000.0
-	default:
-		return 1.0
-	}
+	return convert(value, from, to, timeUnits)
 }
