@@ -152,25 +152,25 @@ func toSquareMeters(unit string) float64 {
 	case "Square Meter":
 		return 1.0
 	case "Square Kilometer":
-		return 1.0
+		return 1000000.0
 	case "Square Centimeter":
-		return 1.0
+		return 0.0001
 	case "Square Millimeter":
-		return 1.0
+		return 0.000001
 	case "Square Micrometer":
-		return 1.0
+		return 0.000000000001
 	case "Hectare":
-		return 1.0
+		return 10000.0
 	case "Square Mile":
-		return 1.0
+		return 2589988.11
 	case "Square Yard":
-		return 1.0
+		return 0.836127
 	case "Square Foot":
-		return 1.0
+		return 0.092903
 	case "Square Inch":
-		return 1.0
+		return 0.00064516
 	case "Acre":
-		return 1.0
+		return 4046.86
 	default:
 		return 1.0
 	}
