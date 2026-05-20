@@ -10,6 +10,7 @@ Check out the project details [roadmap.sh](https://roadmap.sh/projects/unit-conv
 ## TODO
 
 1. Finish template parsing -> should once parse once not every request
+2. Unit testing
 
 
 ## Features
