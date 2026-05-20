@@ -7,6 +7,15 @@ import (
 	"strconv"
 )
 
+type PageData struct {
+	Result     float64
+	FromValue  float64
+	FromUnit   string
+	ToUnit     string
+	Category   string
+	ShowResult bool
+}
+
 func main() {
 	startServer()
 }
@@ -15,8 +24,8 @@ func main() {
 func startServer() {
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/convert", handleConvert)
-	fs := http.FileServer(http.Dir("static"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
+	fs := http.FileServer(http.Dir("static"))                 // for css
+	http.Handle("/static/", http.StripPrefix("/static/", fs)) // for css
 	log.Print("Listening on http://localhost:3000/...")
 	log.Fatal(http.ListenAndServe(":3000", nil))
 }
@@ -60,14 +69,14 @@ func handleConvert(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html")
-	tmpl := template.Must(template.ParseFiles("index.html"))
-	tmpl.Execute(w, map[string]interface{}{
-		"Result":     result,
-		"FromValue":  value,
-		"FromUnit":   fromUnit,
-		"ToUnit":     toUnit,
-		"Category":   category,
-		"ShowResult": true,
+	tmpl := template.Must(template.ParseFiles("./static/index.html"))
+	tmpl.Execute(w, PageData{
+		Result:     result,
+		FromValue:  value,
+		FromUnit:   fromUnit,
+		ToUnit:     toUnit,
+		Category:   category,
+		ShowResult: true,
 	})
 }
 
@@ -112,20 +121,20 @@ func convertTemperature(value float64, from, to string) float64 {
 
 	switch from {
 	case "Celsius":
-		return celsius
+		celsius = value
 	case "Kelvin":
-		return value + 274.15
+		celsius = value - 273.15
 	case "Fahrenheit":
-		return (value - 32) * 5 / 9
+		celsius = (value - 32) * 5 / 9
 	}
 
 	switch to {
 	case "Celsius":
 		return celsius
 	case "Kelvin":
-		return celsius + 274.15
+		return celsius + 273.15
 	case "Fahrenheit":
-		return celsius*5/9 + 32
+		return celsius*9/5 + 32
 	default:
 		return celsius
 	}
