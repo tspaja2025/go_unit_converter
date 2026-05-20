@@ -246,23 +246,23 @@ func toKilograms(unit string) float64 {
 	case "Kilogram":
 		return 1.0
 	case "Gram":
-		return 1.0
+		return 0.001
 	case "Milligram":
-		return 1.0
+		return 0.000001
 	case "Metric Ton":
-		return 1.0
+		return 1000.0
 	case "Long Ton":
-		return 1.0
+		return 1016.05
 	case "Short Ton":
-		return 1.0
+		return 907.185
 	case "Pound":
-		return 1.0
+		return 0.453592
 	case "Ounce":
-		return 1.0
+		return 0.0283495
 	case "Carrat":
-		return 1.0
+		return 0.0002
 	case "Atomic Mass Unit":
-		return 1.0
+		return 1.66054e-27
 	default:
 		return 1.0
 	}
@@ -276,28 +276,28 @@ func convertTime(value float64, from, to string) float64 {
 
 func toSeconds(unit string) float64 {
 	switch unit {
-	case "second":
+	case "Second":
 		return 1.0
 	case "Millisecond":
-		return 1.0
+		return 0.001
 	case "Microsecond":
-		return 1.0
+		return 0.000001
 	case "Nanosecond":
-		return 1.0
+		return 1e-9
 	case "Picosecond":
-		return 1.0
+		return 1e-12
 	case "Minute":
-		return 1.0
+		return 60.0
 	case "Hour":
-		return 1.0
+		return 3600.0
 	case "Day":
-		return 1.0
+		return 86400.0
 	case "Week":
-		return 1.0
+		return 604800.0
 	case "Month":
-		return 1.0
+		return 2628000.0
 	case "Year":
-		return 1.0
+		return 31536000.0
 	default:
 		return 1.0
 	}
