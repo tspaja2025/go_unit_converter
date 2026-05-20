@@ -2,63 +2,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Go Unit Converter</title>
-    <style>
-    .flex {
-        display: flex;
-    }
-    .flex-col {
-        flex-direction: column;
-    }
-    .align-center {
-        align-items: center;
-    }
-    .w-420 {
-        width: 420px;
-    }
-    .w-full {
-        width: 100%;
-    }
-    .font-bold {
-        font-weight: 700;
-    }
-    .gap-y-16 {
-        row-gap: 16px;
-    }
-    .gap-x-16 {
-        column-gap: 16px;
-    }
-    .mb-4 {
-        margin-bottom: 4px;
-    }
-    .border {
-        border: 1px solid #707070;
-    }
-    .p-8 {
-        padding: 8px;
-    }
-    .border-radius-4 {
-        border-radius: 4px;
-    }
-
-    </style>
+    <link rel="stylesheet" href="/static/css/style.css"/>
 </head>
 <body>
     <div class="flex flex-col align-center">
         <h1>Go Unit converter</h1>
-        <form class="flex flex-col gap-y-16 w-420" action="/submit" method="POST">
+
+        {{if .ShowResult}}
+        <div class="result-box w-420 p-12 border-radius-4 mt-16 text-center font-bold">
+            Result: {{.FromValue}} {{.FromUnit}} = {{printf "%.6f" .Result}} {{.ToUnit}}
+        </div>
+        {{end}}
+
+        <form class="flex flex-col gap-y-16 w-420" action="/convert" method="POST">
             <h4 class="mb-4">Length</h4>
-            <div class="flex gap-x-16">
-                <div class="flex flex-col w-full">
-                    <label class="font-bold" for="from">From:</label>
-                    <input class="p-8 border-radius-4 border" type="text" id="from">
-                </div>
-                <div class="flex flex-col w-full">
-                    <label class="font-bold" for="to">To:</label>
-                    <input class="p-8 border-radius-4 border" type="text" id="to">
-                </div>
+            <input type="hidden" name="category" value="length"/>
+            <div class="flex flex-col w-full">
+                <label class="font-bold" for="value">Value:</label>
+                <input class="p-8 border-radius-4 border" type="number" name="value" id="value">
             </div>
             <div class="flex gap-x-16">
-                <select class="w-full">
+                <select class="w-full" name="fromUnit">
                     <option>Meter</option>
                     <option>Kilometer</option>
                     <option>Centimeter</option>
@@ -71,7 +35,7 @@
                     <option>Inch</option>
                     <option>Light Year</option>
                 </select>
-                <select class="w-full">
+                <select class="w-full" name="toUnit">
                     <option>Meter</option>
                     <option>Kilometer</option>
                     <option>Centimeter</option>
@@ -85,46 +49,38 @@
                     <option>Light Year</option>
                 </select>
             </div>
+            <button class="cursor-pointer p-10 border-none border-radius-4" type="submit">Convert</button>
         </form>
-        <form class="flex flex-col gap-y-16 w-420">
+        <form class="flex flex-col gap-y-16 w-420" action="/convert" method="POST">
             <h4 class="mb-4">Temperature</h4>
-            <div class="flex gap-x-16">
-                <div class="flex flex-col w-full">
-                    <label class="font-bold" for="from">From:</label>
-                    <input class="p-8 border-radius-4 border" type="text" id="from">
-                </div>
-                <div class="flex flex-col w-full">
-                    <label class="font-bold" for="to">To:</label>
-                    <input class="p-8 border-radius-4 border" type="text" id="to">
-                </div>
+            <input type="hidden" name="category" value="temperature"/>
+            <div class="flex flex-col w-full">
+                <label class="font-bold" for="value">Value:</label>
+                <input class="p-8 border-radius-4 border" type="number" name="value" id="value">
             </div>
             <div class="flex gap-x-16">
-                <select class="w-full">
-                    <option>Celcius</option>
+                <select class="w-full" name="fromUnit">
+                    <option>Celsius</option>
                     <option>Kelvin</option>
                     <option>Fahrenheit</option>
                 </select>
-                <select class="w-full">
-                    <option>Celcius</option>
+                <select class="w-full" name="toUnit">
+                    <option>Celsius</option>
                     <option>Kelvin</option>
                     <option>Fahrenheit</option>
                 </select>
             </div>
+            <button class="cursor-pointer p-10 border-none border-radius-4" type="submit">Convert</button>
         </form>
-        <form class="flex flex-col gap-y-16 w-420">
+        <form class="flex flex-col gap-y-16 w-420" action="/convert" method="POST">
             <h4 class="mb-4">Area</h4>
-            <div class="flex gap-x-16">
-                <div class="flex flex-col w-full">
-                    <label class="font-bold" for="from">From:</label>
-                    <input class="p-8 border-radius-4 border" type="text" id="from">
-                </div>
-                <div class="flex flex-col w-full">
-                    <label class="font-bold" for="to">To:</label>
-                    <input class="p-8 border-radius-4 border" type="text" id="to">
-                </div>
+            <input type="hidden" name="category" value="area"/>
+            <div class="flex flex-col w-full">
+                <label class="font-bold" for="value">Value:</label>
+                <input class="p-8 border-radius-4 border" type="number" name="value" id="value">
             </div>
             <div class="flex gap-x-16">
-                <select class="w-full">
+                <select class="w-full" name="fromUnit">
                     <option>Square Meter</option>
                     <option>Square Kilometer</option>
                     <option>Square Centimeter</option>
@@ -137,7 +93,7 @@
                     <option>Square Inch</option>
                     <option>Acre</option>
                 </select>
-                <select class="w-full">
+                <select class="w-full" name="toUnit">
                     <option>Square Meter</option>
                     <option>Square Kilometer</option>
                     <option>Square Centimeter</option>
@@ -152,20 +108,15 @@
                 </select>
             </div>
         </form>
-        <form class="flex flex-col gap-y-16 w-420">
+        <form class="flex flex-col gap-y-16 w-420" action="/convert" method="POST">
             <h4 class="mb-4">Volume</h4>
-            <div class="flex gap-x-16">
-                <div class="flex flex-col w-full">
-                    <label class="font-bold" for="from">From:</label>
-                    <input class="p-8 border-radius-4 border" type="text" id="from">
-                </div>
-                <div class="flex flex-col w-full">
-                    <label class="font-bold" for="to">To:</label>
-                    <input class="p-8 border-radius-4 border" type="text" id="to">
-                </div>
+            <input type="hidden" name="category" value="volume"/>
+            <div class="flex flex-col w-full">
+                <label class="font-bold" for="value">Value:</label>
+                <input class="p-8 border-radius-4 border" type="number" name="value" id="value">
             </div>
             <div class="flex gap-x-16">
-                <select class="w-full">
+                <select class="w-full" name="fromUnit">
                     <option>Cubic Meter</option>
                     <option>Cubic Kilometer</option>
                     <option>Cubic Centimeter</option>
@@ -190,7 +141,7 @@
                     <option>Cubic Foot</option>
                     <option>Cubic Inch</option>
                 </select>
-                <select class="w-full">
+                <select class="w-full" name="toUnit">
                     <option>Cubic Meter</option>
                     <option>Cubic Kilometer</option>
                     <option>Cubic Centimeter</option>
@@ -216,21 +167,17 @@
                     <option>Cubic Inch</option>
                 </select>
             </div>
+            <button class="cursor-pointer p-10 border-none border-radius-4" type="submit">Convert</button>
         </form>
-        <form class="flex flex-col gap-y-16 w-420">
+        <form class="flex flex-col gap-y-16 w-420" action="/convert" method="POST">
             <h4 class="mb-4">Weight</h4>
-            <div class="flex gap-x-16">
-                <div class="flex flex-col w-full">
-                    <label class="font-bold" for="from">From:</label>
-                    <input class="p-8 border-radius-4 border" type="text" id="from">
-                </div>
-                <div class="flex flex-col w-full">
-                    <label class="font-bold" for="to">To:</label>
-                    <input class="p-8 border-radius-4 border" type="text" id="to">
-                </div>
+            <input type="hidden" name="category" value="weight"/>
+            <div class="flex flex-col w-full">
+                <label class="font-bold" for="value">Value:</label>
+                <input class="p-8 border-radius-4 border" type="number" name="value" id="value">
             </div>
             <div class="flex gap-x-16">
-                <select class="w-full">
+                <select class="w-full" name="fromUnit">
                     <option>Kilogram</option>
                     <option>Gram</option>
                     <option>Milligram</option>
@@ -242,7 +189,7 @@
                     <option>Carrat</option>
                     <option>Atomic Mass Unit</option>
                 </select>
-                <select class="w-full">
+                <select class="w-full" name="toUnit">
                     <option>Kilogram</option>
                     <option>Gram</option>
                     <option>Milligram</option>
@@ -256,20 +203,15 @@
                 </select>
             </div>
         </form>
-        <form class="flex flex-col gap-y-16 w-420">
+        <form class="flex flex-col gap-y-16 w-420" action="/convert" method="POST">
             <h4 class="mb-4">Time</h4>
-            <div class="flex gap-x-16">
-                <div class="flex flex-col w-full">
-                    <label class="font-bold" for="from">From:</label>
-                    <input class="p-8 border-radius-4 border" type="text" id="from">
-                </div>
-                <div class="flex flex-col w-full">
-                    <label class="font-bold" for="to">To:</label>
-                    <input class="p-8 border-radius-4 border" type="text" id="to">
-                </div>
+            <input type="hidden" name="category" value="time"/>
+            <div class="flex flex-col w-full">
+                <label class="font-bold" for="value">Value:</label>
+                <input class="p-8 border-radius-4 border" type="number" name="value" id="value">
             </div>
             <div class="flex gap-x-16">
-                <select class="w-full">
+                <select class="w-full" name="fromUnit">
                     <option>Second</option>
                     <option>Millisecond</option>
                     <option>Microsecond</option>
@@ -282,7 +224,7 @@
                     <option>Month</option>
                     <option>Year</option>
                 </select>
-                <select class="w-full">
+                <select class="w-full" name="toUnit">
                     <option>Second</option>
                     <option>Millisecond</option>
                     <option>Microsecond</option>
@@ -296,6 +238,7 @@
                     <option>Year</option>
                 </select>
             </div>
+            <button class="cursor-pointer p-10 border-none border-radius-4" type="submit">Convert</button>
         </form>
     </div>
 </body>
