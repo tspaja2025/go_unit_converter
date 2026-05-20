@@ -7,12 +7,6 @@ This application allows user to convert units and see the results.
 This project was created as a part of Expense Tracker beginner project.
 Check out the project details [roadmap.sh](https://roadmap.sh/projects/unit-converter)
 
-## TODO
-
-1. Finish template parsing -> should once parse once not every request
-2. Unit testing
-
-
 ## Features
 
 * Units of measurements
@@ -32,6 +26,7 @@ Clone the repository:
 ```bash
 git clone https://github.com/tspaja2025/go_unit_converter.git
 cd go_unit_converter
+http://localhost:3000
 ```
 
 Run the application:
@@ -46,8 +41,10 @@ go run main.go
 
 * Go
 * Standard library packages:
+  * `html/template`
   * `log`
   * `net/http`
+  * `strconv`
 
 ## Learning Goals
 
@@ -55,6 +52,7 @@ This project was built to practice:
 
 * HTTP
 * Logic Building
+* Templating
 
 ---
 
