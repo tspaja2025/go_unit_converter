@@ -10,7 +10,7 @@
 
         {{if .ShowResult}}
         <div class="result-box w-420 p-12 border-radius-4 mt-16 text-center font-bold">
-            Result: {{.FromValue}} {{.FromUnit}} = {{printf "%.6f" .Result}} {{.ToUnit}}
+            Result: {{.FromValue}} {{.FromUnit}} = {{printf "%.2f" .Result}} {{.ToUnit}}
         </div>
         {{end}}
 

@@ -91,25 +91,25 @@ func toMeters(unit string) float64 {
 	case "Meter":
 		return 1.0
 	case "Kilometer":
-		return 1.0
+		return 1000.0
 	case "Centimeter":
-		return 1.0
+		return 0.01
 	case "Millimeter":
-		return 1.0
+		return 0.001
 	case "Micrometer":
-		return 1.0
+		return 0.000001
 	case "Nanometer":
-		return 1.0
+		return 0.000000001
 	case "Mile":
-		return 1.0
+		return 1609.344
 	case "Yard":
-		return 1.0
+		return 0.9144
 	case "Foot":
-		return 1.0
+		return 0.3048
 	case "Inch":
-		return 1.0
+		return 0.0254
 	case "Light Year":
-		return 1.0
+		return 9.461e15
 	default:
 		return 1.0
 	}
